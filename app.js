@@ -6,6 +6,7 @@ let boardState =
 const board = document.querySelector(".board");
 const btn = document.querySelector(".reset");
 let turn = 0;
+let gameOver = false;
 
 function setup(){
     for(let i = 0; i < 3; i++){
@@ -21,6 +22,7 @@ function setup(){
 
 function updateBoard(){
     board.addEventListener('click', (e)=>{
+        if(gameOver) return;
         const target = e.target;
         if(!target.classList.contains('cell')) return;
         const row = target.dataset.row;
@@ -45,6 +47,12 @@ function updateBoard(){
         if(win !== null){
             winbox = document.querySelector(".winbox");
             winbox.textContent = `${win} wins!`;
+            gameOver = true;
+        }
+        else if(turn == 9){
+            winbox = document.querySelector(".winbox");
+            winbox.textContent = "It's a tie!";
+            gameOver = true;
         }
         turnHandler();
     })
